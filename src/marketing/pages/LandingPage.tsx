@@ -1,35 +1,21 @@
 import Navbar from "../layout/Navbar";
 import Hero from "../components/Hero";
-import Features from "../components/Features";
-import CTA from "../components/CTA";
-import Testimonials from "../components/Testimonials";
+import Services from "../components/Services";
+import HowItWorks from "../components/HowItWorks";
+import AppDownload from "../components/AppDownload";
 import Footer from "../layout/Footer";
 
 export default function LandingPage() {
   return (
-    <div className="bg-white text-black">
+    <div className="min-h-screen bg-white text-slate-900">
       <Navbar />
-
-      <main className="flex flex-col gap-20">
+      <main className="pt-[var(--header-height)]">
         <Hero />
-        <Features />
-        <Testimonials />
-        <CTA />
+        <Services />
+        <HowItWorks />
+        <AppDownload />
       </main>
-
       <Footer />
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-

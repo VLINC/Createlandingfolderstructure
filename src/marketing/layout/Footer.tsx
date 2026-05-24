@@ -1,119 +1,49 @@
 import React from "react";
 
 export default function Footer() {
-  const year = new Date().getFullYear();
-
   return (
-    <footer
-      className="py-10 bg-gray-900 text-gray-300"
-      role="contentinfo"
-      aria-label="Site footer"
-    >
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-start">
-          
-          {/* About / tagline */}
-          <div>
-            <h3 className="text-white font-semibold mb-2">
-              Victorious Love Incorporated
-            </h3>
-            <p className="text-sm text-gray-400">
-              Operated by Dystini Transportation LLC. Professional Cleaning Services — trusted local providers delivering care and quality.
-            </p>
-          </div>
+    <footer id="contact" className="bg-[#0f172a] text-slate-300">
+      <div className="max-w-7xl mx-auto px-6 py-14 grid gap-10 md:grid-cols-3">
+        <div>
+          <h4 className="text-white text-xl font-bold">Victorious Love Pro Clean</h4>
+          <p className="mt-3 text-slate-300">
+            Professional cleaning services you can trust.
+          </p>
+        </div>
 
-          {/* Address & contact */}
-          <div>
-            <h4 className="text-white font-medium mb-2">Contact & Address</h4>
-
-            <address className="not-italic text-sm text-gray-400 space-y-1">
-              <div>Dystini Transportation LLC</div>
-              <div>DBA Victorious Love Incorporated</div>
-              <div>13915 Reflection Ct</div>
-              <div>Ballwin, MO 63021</div>
-
-              <div className="mt-2">
-                Email:{" "}
-                <a
-                  className="text-gray-200 hover:underline"
-                  href="mailto:support@proincorporated.services"
-                >
-                  support@proincorporated.services
-                </a>
-              </div>
-            </address>
-          </div>
-
-          {/* Hours / quick links */}
-          <div>
-            <h4 className="text-white font-medium mb-2">Hours & Links</h4>
-
-            <div className="text-sm text-gray-400 space-y-1">
-              <div>
-                <strong>Hours:</strong> Mon–Fri: 8:00am — 6:00pm
-              </div>
-
-              <div className="mt-2 flex flex-wrap gap-3">
-                <a className="text-sm text-gray-300 hover:underline" href="/services">
-                  Services
-                </a>
-                <a className="text-sm text-gray-300 hover:underline" href="/apply">
-                  Apply
-                </a>
-                <a className="text-sm text-gray-300 hover:underline" href="/contact">
-                  Contact
-                </a>
-                <a
-                  className="text-sm text-gray-300 hover:underline"
-                  href="/terms.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Terms
-                </a>
-                <a
-                  className="text-sm text-gray-300 hover:underline"
-                  href="/privacy.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Privacy
-                </a>
-              </div>
-            </div>
+        <div>
+          <h5 className="text-white font-semibold">Links</h5>
+          <div className="mt-3 flex flex-wrap gap-x-3 gap-y-2 text-slate-300">
+            <a href="#services" className="hover:text-[#D91429] transition-colors">Services</a>
+            <span className="text-slate-500">|</span>
+            <a href="#how-it-works" className="hover:text-[#D91429] transition-colors">How It Works</a>
+            <span className="text-slate-500">|</span>
+            <a href="#contact" className="hover:text-[#D91429] transition-colors">Contact</a>
+            <span className="text-slate-500">|</span>
+            <a href="/terms.html" className="hover:text-[#D91429] transition-colors">Terms</a>
+            <span className="text-slate-500">|</span>
+            <a href="/privacy.html" className="hover:text-[#D91429] transition-colors">Privacy</a>
           </div>
         </div>
 
-        {/* Bottom */}
-        <div className="mt-8 border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
-          <div>
-            © {year} Dystini Transportation LLC — All rights reserved.
-          </div>
-
-          <div className="mt-1">
-            DBA Victorious Love Incorporated · 13915 Reflection Ct · Ballwin, MO 63021 ·{" "}
-            <a
-              className="text-gray-400 hover:underline"
-              href="mailto:support@proincorporated.services"
-            >
+        <div>
+          <h5 className="text-white font-semibold">Contact</h5>
+          <p className="mt-3">Phone: (913) 915-8209</p>
+          <p className="mt-1">
+            Email:{" "}
+            <a href="mailto:support@proincorporated.services" className="hover:text-[#D91429] transition-colors">
               support@proincorporated.services
             </a>
-          </div>
+          </p>
+          <p className="mt-1">Hours: Mon–Fri 5:00am – 10:00pm</p>
+        </div>
+      </div>
+
+      <div className="border-t border-slate-700/70">
+        <div className="max-w-7xl mx-auto px-6 py-4 text-sm text-slate-400">
+          © {new Date().getFullYear()} Victorious Love Pro Clean · All rights reserved.
         </div>
       </div>
     </footer>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
