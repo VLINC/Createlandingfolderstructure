@@ -4,12 +4,12 @@ const HEADER_HEIGHT = 64;
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [bookingOpen, setBookingOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.style.setProperty("--header-height", `${HEADER_HEIGHT}px`);
   }, []);
 
-  // Close menu when clicking outside
   useEffect(() => {
     if (!open) return;
     const handler = (e: MouseEvent) => {
@@ -48,7 +48,7 @@ export default function Navbar() {
           justifyContent: "space-between",
         }}
       >
-        {/* Brand - left side */}
+        {/* Brand */}
         <a
           href="/"
           style={{
@@ -62,7 +62,7 @@ export default function Navbar() {
           Victorious Love Company LLC
         </a>
 
-        {/* Hamburger button - right side */}
+        {/* Hamburger */}
         <button
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
@@ -73,8 +73,6 @@ export default function Navbar() {
             cursor: "pointer",
             padding: "8px",
             display: "flex",
-            flexDirection: "column",
-            gap: "5px",
             alignItems: "center",
             justifyContent: "center",
           }}
@@ -94,7 +92,7 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Dropdown menu */}
+      {/* Dropdown */}
       {open && (
         <div
           style={{
@@ -109,9 +107,10 @@ export default function Navbar() {
           }}
         >
           <nav style={{ display: "flex", flexDirection: "column", padding: "8px 24px 20px" }}>
-            {/* Contact link */}
+
+            {/* About Us */}
             <a
-              href="#contact"
+              href="#about"
               onClick={() => setOpen(false)}
               style={{
                 display: "block",
@@ -123,10 +122,105 @@ export default function Navbar() {
                 textDecoration: "none",
               }}
             >
-              Contact
+              About Us
             </a>
 
-            {/* Divider + Sign Up section */}
+            {/* Earn More — Providers */}
+            <a
+              href="https://procleanvlinc.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "14px 0",
+                borderBottom: "1px solid #f1f5f9",
+                color: "#1e293b",
+                fontWeight: 500,
+                fontSize: "1rem",
+                textDecoration: "none",
+              }}
+            >
+              Earn More
+              <span
+                style={{
+                  background: "#D91429",
+                  color: "#fff",
+                  fontSize: "0.65rem",
+                  fontWeight: 700,
+                  padding: "2px 7px",
+                  borderRadius: "999px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
+                }}
+              >
+                Providers
+              </span>
+            </a>
+
+            {/* Booking Info & Pricing — Accordion */}
+            <div style={{ borderBottom: "1px solid #f1f5f9" }}>
+              <button
+                onClick={() => setBookingOpen(!bookingOpen)}
+                style={{
+                  width: "100%",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: "14px 0",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  color: "#1e293b",
+                  fontWeight: 500,
+                  fontSize: "1rem",
+                  textAlign: "left",
+                }}
+              >
+                Booking Info &amp; Pricing
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#64748b"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  style={{
+                    transform: bookingOpen ? "rotate(180deg)" : "rotate(0deg)",
+                    transition: "transform 0.2s",
+                    flexShrink: 0,
+                  }}
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+
+              {bookingOpen && (
+                <div
+                  style={{
+                    padding: "4px 0 16px 12px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                    fontSize: "0.9rem",
+                    color: "#475569",
+                  }}
+                >
+                  <p>🧹 <strong>Standard Clean</strong> — starting at $89</p>
+                  <p>✨ <strong>Deep Clean</strong> — starting at $149</p>
+                  <p>🏠 <strong>Move In/Out</strong> — starting at $179</p>
+                  <p>🏢 <strong>Commercial</strong> — custom quote</p>
+                  <p style={{ marginTop: "6px", fontSize: "0.8rem", color: "#94a3b8" }}>
+                    Book online or call <a href="tel:9129158209" style={{ color: "#D91429", textDecoration: "none" }}>(912) 915-8209</a>
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Sign Up section */}
             <p
               style={{
                 marginTop: "20px",
@@ -142,9 +236,7 @@ export default function Navbar() {
             </p>
 
             <a
-              href="https://app.procleanvlinc.com/#/signup/location"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/become-a-provider"
               onClick={() => setOpen(false)}
               style={{
                 display: "block",
@@ -163,9 +255,7 @@ export default function Navbar() {
             </a>
 
             <a
-              href="https://app.procleanvlincservice.com/login"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/signup"
               onClick={() => setOpen(false)}
               style={{
                 display: "block",
