@@ -39,3 +39,11 @@ const app = initializeApp(firebaseConfig as Required<typeof firebaseConfig>);
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+
+
+
+
+
+
+
+

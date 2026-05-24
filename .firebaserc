@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "customers-pro-clean-app"
+  },
+  "targets": {
+    "customers-pro-clean-app": {
+      "hosting": {
+        "victorious": [
+          "victorious-landing-site"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

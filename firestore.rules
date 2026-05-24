@@ -1,0 +1,423 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /* =========================
+       AUTH HELPERS
+    ========================== */
+    function isAuth() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isAuth() && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return isAuth() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    function isProvider() {
+      return isAuth() && exists(/databases/$(database)/documents/providers/$(request.auth.uid));
+    }
+
+    // ✅ LAUNCH SERVICE AREA HELPER
+    function isInLaunchServiceArea(b) {
+      // b is resource.data
+      return (b.state == "MO") ||
+             (b.state == "KS" && b.city == "Kansas City");
+    }
+
+    /* =========================
+       USERS
+    ========================== */
+    match /users/{uid} {
+
+      allow read: if (isAuth() && request.auth.uid == uid) || isAdmin() || isProvider();
+
+      allow create, update: if isAuth() && request.auth.uid == uid;
+      allow delete: if false;
+
+      match /settings/{settingId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      match /devices/{token} {
+        allow read, write: if isOwner(uid);
+      }
+
+      match /subscriptions/{subId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      match /rewards/{rewardId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      match /notifications/{notifId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      match /pricingProposals/{proposalId} {
+        allow read: if isOwner(uid);
+        allow create: if isAuth();
+      }
+    }
+
+    /* =========================
+       BOOKINGS
+    ========================== */
+    match /bookings/{bookingId} {
+
+      allow create: if isAuth() && (
+        isAdmin() ||
+        request.resource.data.userId == request.auth.uid
+      );
+
+      allow read: if isAuth() && (
+        isAdmin() ||
+        resource.data.userId == request.auth.uid ||
+        resource.data.customerId == request.auth.uid ||
+        resource.data.providerId == request.auth.uid ||
+
+        (
+          resource.data.assignedProviders != null &&
+          resource.data.assignedProviders is list &&
+          request.auth.uid in resource.data.assignedProviders
+        ) ||
+
+        (
+          isProvider() &&
+          resource.data.isFullyStaffed == false &&
+          isInLaunchServiceArea(resource.data) &&
+          (
+            resource.data.status == "pending" ||
+            resource.data.status == "confirmed" ||
+            resource.data.status == "assigned"
+          )
+        ) ||
+
+        (
+          resource.data.providerId == null &&
+          (
+            resource.data.status == "pending" ||
+            resource.data.status == "confirmed" ||
+            resource.data.status == "assigned"
+          )
+        )
+      );
+
+      allow update: if isAuth() && (
+        isAdmin() ||
+        resource.data.userId == request.auth.uid ||
+        resource.data.customerId == request.auth.uid ||
+        resource.data.providerId == request.auth.uid ||
+
+        (
+          resource.data.assignedProviders != null &&
+          resource.data.assignedProviders is list &&
+          request.auth.uid in resource.data.assignedProviders
+        ) ||
+
+        (
+          isProvider() &&
+          resource.data.isFullyStaffed == false &&
+          isInLaunchServiceArea(resource.data) &&
+          (
+            resource.data.status == "pending" ||
+            resource.data.status == "confirmed" ||
+            resource.data.status == "assigned"
+          ) &&
+          request.resource.data.assignedProviders is list &&
+          request.resource.data.acceptedProviders is list &&
+          request.auth.uid in request.resource.data.assignedProviders &&
+          request.auth.uid in request.resource.data.acceptedProviders
+        ) ||
+
+        (
+          isProvider() &&
+          (
+            resource.data.status == "pending" ||
+            resource.data.status == "confirmed" ||
+            resource.data.status == "assigned"
+          ) &&
+          (
+            (
+              request.resource.data.declinedProviders is list &&
+              request.auth.uid in request.resource.data.declinedProviders
+            ) ||
+            (
+              request.resource.data.declinedBy is list &&
+              request.auth.uid in request.resource.data.declinedBy
+            )
+          )
+        ) ||
+
+        (
+          resource.data.providerId == null &&
+          (
+            resource.data.status == "pending" ||
+            resource.data.status == "confirmed" ||
+            resource.data.status == "assigned"
+          ) &&
+          request.resource.data.providerId == request.auth.uid
+        )
+      );
+
+      allow delete: if isAuth() && (
+        isAdmin() ||
+        resource.data.userId == request.auth.uid ||
+        resource.data.customerId == request.auth.uid
+      );
+    }
+
+    /* =========================
+       SERVICES
+    ========================== */
+    match /services/{serviceId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    /* =========================
+       PROVIDERS
+    ========================== */
+    match /providers/{providerId} {
+      allow read: if isAuth();
+      allow create: if isAuth() && request.auth.uid == providerId;
+      allow update: if isAuth() && request.auth.uid == providerId;
+      allow delete: if false;
+
+      match /{document=**} {
+        allow read: if isAuth() && request.auth.uid == providerId;
+        allow write: if isAuth() && request.auth.uid == providerId;
+      }
+    }
+
+    /* =========================
+       JOBS
+    ========================== */
+    match /jobs/{jobId} {
+      allow read, write: if isAuth();
+    }
+
+    /* =========================
+       PAYMENTS
+    ========================== */
+    match /payments/{paymentId} {
+      allow read: if isAuth() && resource.data.userId == request.auth.uid;
+      allow create: if isAuth() && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    /* =========================
+       SUBSCRIPTIONS
+    ========================== */
+    match /subscriptions/{subscriptionId} {
+      allow read: if isAuth() && resource.data.userId == request.auth.uid;
+      allow write: if false;
+    }
+
+    /* =========================
+       DEMAND & PRICING
+    ========================== */
+    match /demand_multipliers/{zip} {
+      allow read: if isAuth();
+      allow write: if false;
+    }
+
+    match /pricing_events/{eventId} {
+      allow read, create: if isAuth();
+      allow update, delete: if false;
+    }
+
+    /* =========================
+       ADDRESSES
+    ========================== */
+    match /addresses/{addressId} {
+      allow read, write: if isAuth();
+    }
+
+    /* =========================
+       CUSTOMERS
+    ========================== */
+    match /customers/{customerId} {
+      allow read, write: if isAuth() && request.auth.uid == customerId;
+    }
+
+    /* =========================
+       CONVERSATIONS
+    ========================== */
+    match /conversations/{conversationId} {
+      allow read: if isAuth() && (
+        isAdmin() ||
+        request.auth.uid in resource.data.participants
+      );
+
+      allow write: if isAuth() && (
+        isAdmin() ||
+        request.auth.uid in request.resource.data.participants
+      );
+    }
+
+    match /feedbackSurveys/{surveyId} {
+      allow read, create: if isAuth();
+    }
+
+    match /complaints/{complaintId} {
+      allow read, create: if isAuth();
+    }
+
+    /* =========================
+       ADMIN NOTIFICATIONS
+    ========================== */
+    match /admin_notifications/{notificationId} {
+      allow read, update, delete: if isAdmin();
+      allow create: if isAdmin();
+    }
+
+    /* =========================
+       CASHOUT REQUESTS
+    ========================== */
+    match /cashOutRequests/{requestId} {
+      allow read, create, update, delete: if isAdmin();
+    }
+
+    match /cashoutRequests/{requestId} {
+      allow read, create, update, delete: if isAdmin();
+    }
+
+    /* =========================
+       AFFORDABLE ACCESS APPLICATIONS
+    ========================== */
+    match /affordableAccessApplications/{applicationId} {
+      allow create: if isAuth() &&
+        request.resource.data.userId == request.auth.uid;
+
+      allow read, update: if isAuth() && (
+        resource.data.userId == request.auth.uid ||
+        isAdmin()
+      );
+
+      allow delete: if isAdmin();
+    }
+
+    /* =========================
+       RATE LIMITS
+    ========================== */
+    match /rateLimits/{key} {
+      allow read, write: if isAuth() && (
+        key == request.auth.uid ||
+        key.matches('^' + request.auth.uid + '.*')
+      );
+    }
+
+    /* =========================
+       USER SESSIONS
+    ========================== */
+    match /userSessions/{userId} {
+      allow read, create, update: if isOwner(userId);
+      allow delete: if false;
+    }
+
+    /* =========================
+       SECURITY EVENTS
+    ========================== */
+    match /securityEvents/{eventId} {
+      allow create: if isAuth() && eventId.matches('^' + request.auth.uid + '_.*');
+      allow read: if false;
+      allow update, delete: if false;
+    }
+
+    /* =========================
+       NOTIFICATIONS
+    ========================== */
+    match /notifications/{notificationId} {
+      allow read, update: if isAuth() && (
+        resource.data.userId == request.auth.uid ||
+        resource.data.providerId == request.auth.uid ||
+        resource.data.recipientId == request.auth.uid ||
+        isAdmin()
+      );
+      allow create: if isAdmin();
+      allow delete: if false;
+    }
+
+    /* =========================
+       BACKGROUND CHECKS
+    ========================== */
+    match /backgroundChecks/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create, update: if isOwner(userId) || isAdmin();
+      allow delete: if false;
+    }
+
+    /* =========================
+       MESSAGES
+    ========================== */
+    match /messages/{messageId} {
+      function canAccessBooking(bookingId) {
+        return isAuth() && (
+          isAdmin() ||
+          get(/databases/$(database)/documents/bookings/$(bookingId)).data.customerId == request.auth.uid ||
+          get(/databases/$(database)/documents/bookings/$(bookingId)).data.providerId == request.auth.uid ||
+          get(/databases/$(database)/documents/bookings/$(bookingId)).data.userId == request.auth.uid ||
+
+          (
+            get(/databases/$(database)/documents/bookings/$(bookingId)).data.assignedProviders != null &&
+            get(/databases/$(database)/documents/bookings/$(bookingId)).data.assignedProviders is list &&
+            request.auth.uid in
+              get(/databases/$(database)/documents/bookings/$(bookingId)).data.assignedProviders
+          ) ||
+
+          (
+            isProvider() &&
+            get(/databases/$(database)/documents/bookings/$(bookingId)).data.isFullyStaffed == false &&
+            isInLaunchServiceArea(get(/databases/$(database)/documents/bookings/$(bookingId)).data) &&
+            (
+              get(/databases/$(database)/documents/bookings/$(bookingId)).data.status == "pending" ||
+              get(/databases/$(database)/documents/bookings/$(bookingId)).data.status == "confirmed" ||
+              get(/databases/$(database)/documents/bookings/$(bookingId)).data.status == "assigned"
+            )
+          ) ||
+
+          (
+            get(/databases/$(database)/documents/bookings/$(bookingId)).data.providerId == null &&
+            (
+              get(/databases/$(database)/documents/bookings/$(bookingId)).data.status == "pending" ||
+              get(/databases/$(database)/documents/bookings/$(bookingId)).data.status == "confirmed" ||
+              get(/databases/$(database)/documents/bookings/$(bookingId)).data.status == "assigned"
+            )
+          )
+        );
+      }
+
+      allow read: if canAccessBooking(resource.data.bookingId);
+
+      allow create: if isAuth()
+        && request.resource.data.bookingId is string
+        && canAccessBooking(request.resource.data.bookingId);
+
+      allow update, delete: if false;
+    }
+
+    /* =========================
+       LICENSES (MANUAL APPROVAL)
+       - Users can read their own license doc
+       - ONLY admins can create/update/delete
+    ========================== */
+    match /licenses/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
+    /* =========================
+       DEFAULT DENY
+    ========================== */
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
