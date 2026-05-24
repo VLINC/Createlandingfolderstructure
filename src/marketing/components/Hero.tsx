@@ -23,7 +23,7 @@ export default function Hero() {
             fontSize: "clamp(2rem, 8vw, 3.5rem)",
             fontWeight: 900,
             lineHeight: 1.15,
-            margin: 0,
+            margin: "0 0 2.5rem",
             color: "#ffffff",
           }}
         >
@@ -31,24 +31,8 @@ export default function Hero() {
           <span style={{ color: "#D91429" }}>On Your Schedule</span>
         </h1>
 
-        <p
-          style={{
-            marginTop: "1.25rem",
-            fontSize: "1.1rem",
-            color: "#cbd5e1",
-            maxWidth: "36rem",
-            marginLeft: "auto",
-            marginRight: "auto",
-            lineHeight: 1.7,
-          }}
-        >
-          Trusted local cleaning providers serving Kansas City and the surrounding area.
-        </p>
-
-        {/* CTA Buttons */}
         <div
           style={{
-            marginTop: "2rem",
             display: "flex",
             flexDirection: "column",
             gap: "0.875rem",
@@ -97,32 +81,6 @@ export default function Hero() {
           >
             Sign Up as a Customer
           </a>
-        </div>
-
-        {/* Stats */}
-        <div
-          style={{
-            marginTop: "3rem",
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "1rem",
-            maxWidth: "26rem",
-            marginLeft: "auto",
-            marginRight: "auto",
-            borderTop: "1px solid rgba(255,255,255,0.1)",
-            paddingTop: "2rem",
-          }}
-        >
-          {[
-            { value: "500+", label: "Cleans Done" },
-            { value: "100%", label: "Verified" },
-            { value: "5★", label: "Avg Rating" },
-          ].map((stat) => (
-            <div key={stat.label} style={{ textAlign: "center" }}>
-              <p style={{ fontSize: "1.5rem", fontWeight: 800, color: "#ffffff", margin: 0 }}>{stat.value}</p>
-              <p style={{ fontSize: "0.7rem", color: "#94a3b8", marginTop: "4px", textTransform: "uppercase", letterSpacing: "0.05em" }}>{stat.label}</p>
-            </div>
-          ))}
         </div>
       </div>
     </section>
