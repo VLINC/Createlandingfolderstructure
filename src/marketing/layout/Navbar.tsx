@@ -2,14 +2,6 @@ import React, { useState, useEffect } from "react";
 
 const HEADER_HEIGHT = 64;
 
-const navLinks = [
-  { label: "Services", href: "#services" },
-  { label: "How It Works", href: "#how-it-works" },
-  { label: "Contact", href: "#contact" },
-  { label: "Terms", href: "/terms.html" },
-  { label: "Privacy", href: "/privacy.html" },
-];
-
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
@@ -17,8 +9,20 @@ export default function Navbar() {
     document.documentElement.style.setProperty("--header-height", `${HEADER_HEIGHT}px`);
   }, []);
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest("#navbar-root")) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [open]);
+
   return (
     <header
+      id="navbar-root"
       style={{
         position: "fixed",
         top: 0,
@@ -44,12 +48,21 @@ export default function Navbar() {
           justifyContent: "space-between",
         }}
       >
-        {/* Brand */}
-        <span style={{ color: "#D91429", fontWeight: 800, fontSize: "1rem", letterSpacing: "-0.01em" }}>
+        {/* Brand - left side */}
+        <a
+          href="/"
+          style={{
+            color: "#D91429",
+            fontWeight: 800,
+            fontSize: "1rem",
+            textDecoration: "none",
+            letterSpacing: "-0.01em",
+          }}
+        >
           Victorious Love Company LLC
-        </span>
+        </a>
 
-        {/* Hamburger button — always visible */}
+        {/* Hamburger button - right side */}
         <button
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
@@ -58,19 +71,21 @@ export default function Navbar() {
             background: "none",
             border: "none",
             cursor: "pointer",
-            padding: "6px",
+            padding: "8px",
             display: "flex",
+            flexDirection: "column",
+            gap: "5px",
             alignItems: "center",
             justifyContent: "center",
           }}
         >
           {open ? (
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1e293b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1e293b" strokeWidth="2.5" strokeLinecap="round">
               <line x1="6" y1="6" x2="18" y2="18" />
               <line x1="18" y1="6" x2="6" y2="18" />
             </svg>
           ) : (
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1e293b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1e293b" strokeWidth="2.5" strokeLinecap="round">
               <line x1="3" y1="6" x2="21" y2="6" />
               <line x1="3" y1="12" x2="21" y2="12" />
               <line x1="3" y1="18" x2="21" y2="18" />
@@ -79,7 +94,7 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile dropdown */}
+      {/* Dropdown menu */}
       {open && (
         <div
           style={{
@@ -89,19 +104,24 @@ export default function Navbar() {
             right: 0,
             background: "#ffffff",
             borderBottom: "1px solid #e2e8f0",
-            boxShadow: "0 8px 24px rgba(0,0,0,0.10)",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
             zIndex: 9998,
           }}
         >
-          <nav style={{ display: "flex", flexDirection: "column", padding: "8px 20px 16px" }}>
-            {navLinks.map((item) => (
+          <nav style={{ display: "flex", flexDirection: "column", padding: "8px 24px 20px" }}>
+            {/* Page links */}
+            {[
+              { label: "Services", href: "#services" },
+              { label: "How It Works", href: "#how-it-works" },
+              { label: "Contact", href: "#contact" },
+            ].map((item) => (
               <a
                 key={item.label}
                 href={item.href}
                 onClick={() => setOpen(false)}
                 style={{
                   display: "block",
-                  padding: "14px 4px",
+                  padding: "14px 0",
                   borderBottom: "1px solid #f1f5f9",
                   color: "#1e293b",
                   fontWeight: 500,
@@ -112,14 +132,52 @@ export default function Navbar() {
                 {item.label}
               </a>
             ))}
+
+            {/* Divider + Sign Up section */}
+            <p
+              style={{
+                marginTop: "20px",
+                marginBottom: "10px",
+                fontSize: "0.75rem",
+                fontWeight: 700,
+                color: "#94a3b8",
+                textTransform: "uppercase",
+                letterSpacing: "0.1em",
+              }}
+            >
+              Sign Up
+            </p>
+
             <a
-              href="/signup"
+              href="https://app.procleanvlinc.com/#/signup/location"
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => setOpen(false)}
               style={{
                 display: "block",
-                marginTop: "12px",
                 background: "#D91429",
-                color: "#fff",
+                color: "#ffffff",
+                textAlign: "center",
+                padding: "14px",
+                borderRadius: "8px",
+                fontWeight: 700,
+                fontSize: "1rem",
+                textDecoration: "none",
+                marginBottom: "10px",
+              }}
+            >
+              Sign Up as a Provider
+            </a>
+
+            <a
+              href="https://app.procleanvlincservice.com/login"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+              style={{
+                display: "block",
+                background: "#0f172a",
+                color: "#ffffff",
                 textAlign: "center",
                 padding: "14px",
                 borderRadius: "8px",
@@ -128,7 +186,7 @@ export default function Navbar() {
                 textDecoration: "none",
               }}
             >
-              Sign Up
+              Sign Up as a Customer
             </a>
           </nav>
         </div>
