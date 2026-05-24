@@ -1,50 +1,50 @@
 import React from "react";
-import { Sparkles, Brush, Home, Hammer, Building2 } from "lucide-react";
 
 const services = [
   {
     title: "Standard Clean",
     description: "Routine cleaning to keep your home fresh and comfortable.",
-    icon: Sparkles,
+    emoji: "🧹",
   },
   {
     title: "Deep Clean",
     description: "A detailed top-to-bottom clean for high-touch and hard-to-reach areas.",
-    icon: Brush,
+    emoji: "✨",
   },
   {
     title: "Move In/Out Clean",
     description: "Thorough cleaning for smooth transitions between homes.",
-    icon: Home,
+    emoji: "🏠",
   },
   {
     title: "Post-Construction Clean",
     description: "Dust and debris removal after renovation or construction projects.",
-    icon: Hammer,
+    emoji: "🔨",
   },
   {
     title: "Commercial Clean",
     description: "Reliable office and workspace cleaning tailored to your schedule.",
-    icon: Building2,
+    emoji: "🏢",
   },
 ];
 
 export default function Services() {
   return (
-    <section id="services" className="bg-slate-100">
-      <div className="max-w-7xl mx-auto px-6 py-16 md:py-20">
-        <h3 className="text-3xl md:text-4xl font-bold text-slate-900">Our Services</h3>
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((service) => {
-            const Icon = service.icon;
-            return (
-              <article key={service.title} className="rounded-xl bg-white p-6 shadow-sm border border-slate-200">
-                <Icon className="h-8 w-8 text-[#D91429]" />
-                <h4 className="mt-4 text-xl font-semibold">{service.title}</h4>
-                <p className="mt-2 text-slate-600">{service.description}</p>
-              </article>
-            );
-          })}
+    <section id="services" className="bg-slate-50 py-20">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-12">
+          <p className="text-[#D91429] font-semibold text-sm uppercase tracking-widest mb-2">What We Offer</p>
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">Our Services</h2>
+          <p className="mt-3 text-slate-500 max-w-xl mx-auto">Professional cleaning for every need — residential and commercial.</p>
+        </div>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {services.map((s) => (
+            <div key={s.title} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+              <div className="text-3xl mb-4">{s.emoji}</div>
+              <h3 className="text-lg font-bold text-slate-900 mb-2">{s.title}</h3>
+              <p className="text-slate-500 text-sm leading-relaxed">{s.description}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
