@@ -1,58 +1,134 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+const HEADER_HEIGHT = 64;
+
+const navLinks = [
+  { label: "Services", href: "#services" },
+  { label: "How It Works", href: "#how-it-works" },
+  { label: "Contact", href: "#contact" },
+  { label: "Terms", href: "/terms.html" },
+  { label: "Privacy", href: "/privacy.html" },
+];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    document.documentElement.style.setProperty("--header-height", `${HEADER_HEIGHT}px`);
+  }, []);
+
   return (
     <header
-      style={{ height: "var(--header-height)" }}
-      className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200 shadow-sm"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        height: `${HEADER_HEIGHT}px`,
+        background: "#ffffff",
+        borderBottom: "1px solid #e2e8f0",
+        boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
+        zIndex: 9999,
+        display: "flex",
+        alignItems: "center",
+      }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
-        <span className="text-lg font-bold text-slate-900 tracking-tight">
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "80rem",
+          margin: "0 auto",
+          padding: "0 1.25rem",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        {/* Brand */}
+        <span style={{ color: "#D91429", fontWeight: 800, fontSize: "1rem", letterSpacing: "-0.01em" }}>
           Victorious Love Company LLC
         </span>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-700">
-          <a href="#services" className="hover:text-[#D91429] transition-colors">Services</a>
-          <a href="#how-it-works" className="hover:text-[#D91429] transition-colors">How It Works</a>
-          <a href="#contact" className="hover:text-[#D91429] transition-colors">Contact</a>
-          <a
-            href="#download"
-            className="bg-[#D91429] text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-[#b91023] transition-colors"
-          >
-            Get the App
-          </a>
-        </nav>
-
-        {/* Mobile hamburger */}
+        {/* Hamburger button — always visible */}
         <button
-          className="md:hidden text-slate-700 p-2"
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
+          aria-expanded={open}
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            padding: "6px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            {open
-              ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />}
-          </svg>
+          {open ? (
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1e293b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="6" y1="6" x2="18" y2="18" />
+              <line x1="18" y1="6" x2="6" y2="18" />
+            </svg>
+          ) : (
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1e293b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          )}
         </button>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile dropdown */}
       {open && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-slate-200 shadow-md">
-          <nav className="flex flex-col px-6 py-4 gap-4 text-slate-800 font-medium text-base">
-            <a href="#services" onClick={() => setOpen(false)}>Services</a>
-            <a href="#how-it-works" onClick={() => setOpen(false)}>How It Works</a>
-            <a href="#contact" onClick={() => setOpen(false)}>Contact</a>
+        <div
+          style={{
+            position: "absolute",
+            top: `${HEADER_HEIGHT}px`,
+            left: 0,
+            right: 0,
+            background: "#ffffff",
+            borderBottom: "1px solid #e2e8f0",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.10)",
+            zIndex: 9998,
+          }}
+        >
+          <nav style={{ display: "flex", flexDirection: "column", padding: "8px 20px 16px" }}>
+            {navLinks.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                style={{
+                  display: "block",
+                  padding: "14px 4px",
+                  borderBottom: "1px solid #f1f5f9",
+                  color: "#1e293b",
+                  fontWeight: 500,
+                  fontSize: "1rem",
+                  textDecoration: "none",
+                }}
+              >
+                {item.label}
+              </a>
+            ))}
             <a
-              href="#download"
+              href="/signup"
               onClick={() => setOpen(false)}
-              className="bg-[#D91429] text-white text-center px-4 py-2 rounded-md font-semibold"
+              style={{
+                display: "block",
+                marginTop: "12px",
+                background: "#D91429",
+                color: "#fff",
+                textAlign: "center",
+                padding: "14px",
+                borderRadius: "8px",
+                fontWeight: 700,
+                fontSize: "1rem",
+                textDecoration: "none",
+              }}
             >
-              Get the App
+              Sign Up
             </a>
           </nav>
         </div>
