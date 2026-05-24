@@ -41,10 +41,10 @@ function getNextPaymentDate(freq: string) {
     nextDate.setMonth(today.getMonth() + 1);
   }
 
-  return nextDate.toLocaleDateString('en-US', { 
-    month: 'short', 
+  return nextDate.toLocaleDateString('en-US', {
+    month: 'short',
     day: 'numeric',
-    year: 'numeric' 
+    year: 'numeric',
   });
 }
 
@@ -89,7 +89,7 @@ export default function SubscriptionsPageLanding() {
   return (
     <div className="min-h-screen bg-gray-50 pt-24 pb-24">
       <div className="max-w-4xl mx-auto p-3 space-y-3">
-        
+
         {/* Success Banner */}
         <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-3">
           <div className="flex items-center gap-2">
@@ -128,7 +128,12 @@ export default function SubscriptionsPageLanding() {
               </span>
             </div>
             <p className="text-xs text-gray-500">
-              Billed {subscription.frequency === 'weekly'  'weekly' : subscription.frequency === 'biweekly'  'every 2 weeks' : 'monthly'}
+              Billed{' '}
+              {subscription.frequency === 'weekly'
+                ? 'weekly'
+                : subscription.frequency === 'biweekly'
+                ? 'every 2 weeks'
+                : 'monthly'}
             </p>
           </div>
 
@@ -201,7 +206,7 @@ export default function SubscriptionsPageLanding() {
         {/* Cancel Section */}
         <div className="bg-white rounded-xl shadow-md p-4 text-center">
           <p className="text-xs text-gray-600 mb-2">
-            Need to cancel You can do so anytime with no penalties.
+            Need to cancel? You can do so anytime with no penalties.
           </p>
           <button
             className="text-xs font-medium text-red-600 underline"
@@ -216,15 +221,3 @@ export default function SubscriptionsPageLanding() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
