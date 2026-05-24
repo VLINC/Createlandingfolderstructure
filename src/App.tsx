@@ -4,6 +4,7 @@ import { Toaster } from "sonner";
 import LandingPage from "./marketing/pages/LandingPage";
 import ProviderSignupLandingPage from "./marketing/pages/ProviderSignupLandingPage";
 import SubscriptionPlansLandingPage from "./marketing/pages/SubscriptionPlansLandingPage";
+import PricingPage from "./marketing/pages/PricingPage";
 
 // Auth pages
 import CustomerSignupPage from "./auth/CustomerSignupPage";
@@ -24,6 +25,9 @@ function App() {
 
         {/* Marketing — Subscription Plans info page */}
         <Route path="/plans" element={<SubscriptionPlansLandingPage />} />
+
+        {/* Marketing — Pricing info page */}
+        <Route path="/pricing" element={<PricingPage />} />
 
         {/* Auth — Customer Signup */}
         <Route path="/signup" element={<CustomerSignupPage />} />

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const HEADER_HEIGHT = 64;
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [bookingOpen, setBookingOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.documentElement.style.setProperty("--header-height", `${HEADER_HEIGHT}px`);
@@ -108,23 +109,6 @@ export default function Navbar() {
         >
           <nav style={{ display: "flex", flexDirection: "column", padding: "8px 24px 20px" }}>
 
-            {/* About Us */}
-            <a
-              href="#about"
-              onClick={() => setOpen(false)}
-              style={{
-                display: "block",
-                padding: "14px 0",
-                borderBottom: "1px solid #f1f5f9",
-                color: "#1e293b",
-                fontWeight: 500,
-                fontSize: "1rem",
-                textDecoration: "none",
-              }}
-            >
-              About Us
-            </a>
-
             {/* Earn More — Providers */}
             <a
               href="https://procleanvlinc.com"
@@ -160,65 +144,22 @@ export default function Navbar() {
               </span>
             </a>
 
-            {/* Booking Info & Pricing — Accordion */}
-            <div style={{ borderBottom: "1px solid #f1f5f9" }}>
-              <button
-                onClick={() => setBookingOpen(!bookingOpen)}
-                style={{
-                  width: "100%",
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  padding: "14px 0",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  color: "#1e293b",
-                  fontWeight: 500,
-                  fontSize: "1rem",
-                  textAlign: "left",
-                }}
-              >
-                Booking Info &amp; Pricing
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#64748b"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  style={{
-                    transform: bookingOpen ? "rotate(180deg)" : "rotate(0deg)",
-                    transition: "transform 0.2s",
-                    flexShrink: 0,
-                  }}
-                >
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
-
-              {bookingOpen && (
-                <div
-                  style={{
-                    padding: "4px 0 16px 12px",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "10px",
-                    fontSize: "0.9rem",
-                    color: "#475569",
-                  }}
-                >
-                  <p>🧹 <strong>Standard Clean</strong> — starting at $89</p>
-                  <p>✨ <strong>Deep Clean</strong> — starting at $149</p>
-                  <p>🏠 <strong>Move In/Out</strong> — starting at $179</p>
-                  <p>🏢 <strong>Commercial</strong> — custom quote</p>
-                  <p style={{ marginTop: "6px", fontSize: "0.8rem", color: "#94a3b8" }}>
-                    Book online or call <a href="tel:9129158209" style={{ color: "#D91429", textDecoration: "none" }}>(912) 915-8209</a>
-                  </p>
-                </div>
-              )}
-            </div>
+            {/* Booking Info & Pricing — links to full page */}
+            <a
+              href="/pricing"
+              onClick={() => setOpen(false)}
+              style={{
+                display: "block",
+                padding: "14px 0",
+                borderBottom: "1px solid #f1f5f9",
+                color: "#1e293b",
+                fontWeight: 500,
+                fontSize: "1rem",
+                textDecoration: "none",
+              }}
+            >
+              Booking Info &amp; Pricing
+            </a>
 
             {/* Sign Up section */}
             <p

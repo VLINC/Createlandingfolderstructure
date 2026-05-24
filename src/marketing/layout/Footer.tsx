@@ -18,6 +18,9 @@ export default function Footer() {
           <p style={{ color: "#D91429", fontWeight: 800, fontSize: "1rem", marginBottom: "1rem" }}>
             Victorious Love Company LLC
           </p>
+          <p style={{ color: "#94a3b8", fontWeight: 600, fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "0.4rem" }}>
+            Business Address
+          </p>
           <div style={{ fontSize: "0.85rem", color: "#64748b", lineHeight: 2 }}>
             <p style={{ margin: 0 }}>PO Box 1074</p>
             <p style={{ margin: 0 }}>Florissant, MO 63031</p>
@@ -34,7 +37,7 @@ export default function Footer() {
               { label: "Services", href: "#services" },
               { label: "How It Works", href: "#how-it-works" },
               { label: "Access Programs", href: "#access-programs" },
-              { label: "Contact", href: "#contact" },
+              { label: "Pricing", href: "/pricing" },
               { label: "Terms of Service", href: "/terms.html" },
               { label: "Privacy Policy", href: "/privacy.html" },
             ].map((link) => (
@@ -77,7 +80,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom bar — single clean line */}
+      {/* Bottom bar */}
       <div style={{ borderTop: "1px solid #1e293b", padding: "1.25rem 1.5rem", textAlign: "center", fontSize: "0.75rem", color: "#334155" }}>
         © {new Date().getFullYear()} Victorious Love Company LLC · All rights reserved.
       </div>
