@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 const HEADER_HEIGHT = 64;
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     document.documentElement.style.setProperty("--header-height", `${HEADER_HEIGHT}px`);
@@ -109,6 +107,40 @@ export default function Navbar() {
         >
           <nav style={{ display: "flex", flexDirection: "column", padding: "8px 24px 20px" }}>
 
+            {/* Access Program */}
+            <a
+              href="/access-program"
+              onClick={() => setOpen(false)}
+              style={{
+                display: "block",
+                padding: "14px 0",
+                borderBottom: "1px solid #f1f5f9",
+                color: "#1e293b",
+                fontWeight: 500,
+                fontSize: "1rem",
+                textDecoration: "none",
+              }}
+            >
+              Access Program
+            </a>
+
+            {/* Booking Info & Pricing */}
+            <a
+              href="/pricing"
+              onClick={() => setOpen(false)}
+              style={{
+                display: "block",
+                padding: "14px 0",
+                borderBottom: "1px solid #f1f5f9",
+                color: "#1e293b",
+                fontWeight: 500,
+                fontSize: "1rem",
+                textDecoration: "none",
+              }}
+            >
+              Booking Info &amp; Pricing
+            </a>
+
             {/* Earn More — Providers */}
             <a
               href="https://procleanvlinc.com"
@@ -142,23 +174,6 @@ export default function Navbar() {
               >
                 Providers
               </span>
-            </a>
-
-            {/* Booking Info & Pricing — links to full page */}
-            <a
-              href="/pricing"
-              onClick={() => setOpen(false)}
-              style={{
-                display: "block",
-                padding: "14px 0",
-                borderBottom: "1px solid #f1f5f9",
-                color: "#1e293b",
-                fontWeight: 500,
-                fontSize: "1rem",
-                textDecoration: "none",
-              }}
-            >
-              Booking Info &amp; Pricing
             </a>
 
             {/* Sign Up section */}
@@ -212,6 +227,7 @@ export default function Navbar() {
             >
               Sign Up as a Customer
             </a>
+
           </nav>
         </div>
       )}
