@@ -19,16 +19,16 @@ export default function Hero() {
         </p>
         <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
           <a
-            href="https://vlincapp.pro/app"
+            href="/signup"
             className="inline-flex items-center justify-center rounded-lg bg-[#D91429] px-8 py-4 text-base font-bold text-white hover:bg-[#b91023] transition-colors shadow-lg"
           >
-            Book a Cleaning
+            Sign Up
           </a>
           <a
-            href="#download"
+            href="#services"
             className="inline-flex items-center justify-center rounded-lg border-2 border-white/60 px-8 py-4 text-base font-bold text-white hover:bg-white/10 transition-colors"
           >
-            Download the App
+            Our Services
           </a>
         </div>
         <div className="mt-12 grid grid-cols-3 gap-4 max-w-lg mx-auto text-center">
