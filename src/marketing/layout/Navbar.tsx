@@ -9,7 +9,6 @@ export default function Navbar() {
     document.documentElement.style.setProperty("--header-height", `${HEADER_HEIGHT}px`);
   }, []);
 
-  // Close menu when clicking outside
   useEffect(() => {
     if (!open) return;
     const handler = (e: MouseEvent) => {
@@ -48,36 +47,15 @@ export default function Navbar() {
           justifyContent: "space-between",
         }}
       >
-        {/* Brand - left side */}
-        <a
-          href="/"
-          style={{
-            color: "#D91429",
-            fontWeight: 800,
-            fontSize: "1rem",
-            textDecoration: "none",
-            letterSpacing: "-0.01em",
-          }}
-        >
+        <a href="/" style={{ color: "#D91429", fontWeight: 800, fontSize: "1rem", textDecoration: "none", letterSpacing: "-0.01em" }}>
           Victorious Love Company LLC
         </a>
 
-        {/* Hamburger button - right side */}
         <button
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
           aria-expanded={open}
-          style={{
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            padding: "8px",
-            display: "flex",
-            flexDirection: "column",
-            gap: "5px",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+          style={{ background: "none", border: "none", cursor: "pointer", padding: "8px", display: "flex", alignItems: "center", justifyContent: "center" }}
         >
           {open ? (
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1e293b" strokeWidth="2.5" strokeLinecap="round">
@@ -94,7 +72,6 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Dropdown menu */}
       {open && (
         <div
           style={{
@@ -109,10 +86,10 @@ export default function Navbar() {
           }}
         >
           <nav style={{ display: "flex", flexDirection: "column", padding: "8px 24px 20px" }}>
-            {/* Page links */}
             {[
               { label: "Services", href: "#services" },
               { label: "How It Works", href: "#how-it-works" },
+              { label: "Access Programs", href: "#access-programs" },
               { label: "Contact", href: "#contact" },
             ].map((item) => (
               <a
@@ -133,18 +110,7 @@ export default function Navbar() {
               </a>
             ))}
 
-            {/* Divider + Sign Up section */}
-            <p
-              style={{
-                marginTop: "20px",
-                marginBottom: "10px",
-                fontSize: "0.75rem",
-                fontWeight: 700,
-                color: "#94a3b8",
-                textTransform: "uppercase",
-                letterSpacing: "0.1em",
-              }}
-            >
+            <p style={{ marginTop: "20px", marginBottom: "10px", fontSize: "0.75rem", fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em" }}>
               Sign Up
             </p>
 
